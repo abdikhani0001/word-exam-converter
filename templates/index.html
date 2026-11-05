@@ -3,50 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Exam Converter - Mobile & PC</title>
+    <title>Exam Suite Pro | Ultimate Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
-        .container { max-width: 600px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: auto; }
-        h2 { text-align: center; color: #1e3a8a; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #6b7280; font-size: 14px; margin-top: 0; }
-        label { font-weight: bold; display: block; margin-top: 12px; color: #374151; font-size: 14px; }
-        input, select, button { width: 100%; padding: 12px; margin-top: 6px; margin-bottom: 12px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
-        input[type="file"] { background: #f9fafb; padding: 10px; }
-        button { background: #2563eb; color: white; border: none; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 15px; }
-        button:hover { background: #1d4ed8; }
-        .footer { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 20px; }
+        :root {
+            --bg-color: #f7f7f8;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border: #e3e3e5;
+            --radius: 12px;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 24px 16px; display: flex; justify-content: center; min-height: 100vh; box-sizing: border-box; }
+        .container { width: 100%; max-width: 680px; background: var(--card-bg); padding: 36px; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--border); height: fit-content; }
+        h2 { font-size: 24px; font-weight: 700; color: #111; margin: 0 0 6px 0; text-align: center; }
+        p.subtitle { text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }
+        .tabs { display: flex; background: #f1f1f3; padding: 4px; border-radius: 8px; margin-bottom: 24px; }
+        .tab-btn { flex: 1; background: transparent; border: none; padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-muted); border-radius: 6px; transition: all 0.2s; }
+        .tab-btn.active { background: #fff; color: #111; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        label { font-weight: 600; display: block; margin-top: 16px; margin-bottom: 6px; color: #374151; font-size: 13px; }
+        input, select, textarea { width: 100%; padding: 12px 14px; margin-bottom: 14px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 14px; font-family: 'Inter', sans-serif; background: #fafafa; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
+        .section-builder { background: #f8fafc; border: 1px dashed #cbd5e1; padding: 16px; border-radius: 8px; margin-bottom: 14px; }
+        button.submit-btn { width: 100%; padding: 14px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        button.submit-btn:hover { background: var(--primary-hover); }
+        .footer { text-align: center; font-size: 12px; color: #9a9a9a; margin-top: 24px; border-top: 1px solid var(--border); paddingTop: 16px; }
     </style>
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h2>Word Exam Converter</h2>
-        <p class="subtitle">Format exams for Al-Amiin & schools instantly</p>
-        <form action="/convert" method="POST" enctype="multipart/form-data">
-            <label>Select Exam File (PDF, DOCX, Image):</label>
-            <input type="file" name="file" required>
+        <h2>Exam Suite Pro</h2>
+        <p class="subtitle">Ultimate AI Exam Architect & Formatter</p>
 
-            <label>School Name:</label>
-            <input type="text" name="school_name" value="AL-AMIIN PRIMARY & SECONDARY SCHOOL">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('format-tab')">Format Exam File</button>
+            <button class="tab-btn" onclick="switchTab('ai-tab')">Smart AI Generator</button>
+        </div>
 
-            <label>Exam Title:</label>
-            <input type="text" name="exam_title" value="END OF TERM EXAMINATION">
+        <!-- Format Tab -->
+        <div id="format-tab" class="form-section active">
+            <form action="/convert" method="POST" enctype="multipart/form-data">
+                <label>Select Raw Exam File (PDF, DOCX)</label>
+                <input type="file" name="file" required>
+                <label>School Name (Header)</label>
+                <input type="text" name="school_name" value="AL-AMIIN PRIMARY & SECONDARY SCHOOL">
+                <label>Exam Title</label>
+                <input type="text" name="exam_title" value="END OF TERM EXAMINATION">
+                <label>Subject & Class</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="subject" value="Saynis" placeholder="Subject">
+                    <input type="text" name="class_grade" value="Fasalka 1aad" placeholder="Class">
+                </div>
+                <button type="submit" class="submit-btn">Format & Download Document</button>
+            </form>
+        </div>
 
-            <label>Subject:</label>
-            <input type="text" name="subject" value="Saynis">
+        <!-- Smart AI Generator Tab -->
+        <div id="ai-tab" class="form-section">
+            <form action="/generate-smart-exam" method="POST" enctype="multipart/form-data">
+                <label>1. Upload Reference Textbook / Notes (PDF, DOCX)</label>
+                <input type="file" name="textbook_file" required>
 
-            <label>Class / Grade:</label>
-            <input type="text" name="class_grade" value="Fasalka 1aad">
+                <label>2. Institutional Header Settings</label>
+                <input type="text" name="school_name" value="AL-AMIIN PRIMARY & SECONDARY SCHOOL">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="subject" value="Saynis">
+                    <input type="text" name="class_grade" value="Fasalka 1aad">
+                </div>
 
-            <label>Layout Style:</label>
-            <select name="layout_style">
-                <option value="Traditional Kenya">Traditional Kenya</option>
-                <option value="Modern CBC">Modern CBC</option>
-            </select>
+                <label>3. Define Exam Structure & Marks Distribution</label>
+                
+                <div class="section-builder">
+                    <strong>Section A Configuration</strong>
+                    <input type="text" name="sec_a_title" value="SECTION A: MULTIPLE CHOICE QUESTIONS">
+                    <input type="number" name="sec_a_count" value="5" placeholder="Number of questions">
+                </div>
 
-            <button type="submit">CONVERT TO WORD (.DOCX)</button>
-        </form>
-        <div class="footer">Compatible with WPS Office on Android & Windows</div>
+                <div class="section-builder">
+                    <strong>Section B Configuration</strong>
+                    <input type="text" name="sec_b_title" value="SECTION B: STRUCTURED INQUIRY & SHORT ANSWERS">
+                    <input type="number" name="sec_b_count" value="5" placeholder="Number of questions">
+                </div>
+
+                <label>Footer Note / Instructions</label>
+                <input type="text" name="footer_note" value="Answer all questions on the spaces provided. Good Luck!">
+
+                <button type="submit" class="submit-btn">Generate Structured Exam & Preview</button>
+            </form>
+        </div>
+
+        <div class="footer">Fully compatible with WPS Office • Optimized for Educators</div>
     </div>
 </body>
 </html>
-
