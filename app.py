@@ -1,11 +1,10 @@
 import os
-from flask import Flask, render_template, request, send_file, redirect, url_for
+from flask import Flask, render_template, request, send_file, redirect
 from docx import Document
-from docx.shared import Inches, Pt
+from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import pdfplumber
 from PIL import Image
-import pytesseract
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
@@ -35,7 +34,6 @@ def convert():
         exam_title = request.form.get('exam_title', 'END OF TERM EXAMINATION')
         subject = request.form.get('subject', 'Saynis')
         class_grade = request.form.get('class_grade', 'Fasalka 1aad')
-        layout_style = request.form.get('layout_style', 'Traditional Kenya')
 
         # Extract text based on file extension
         extracted_text = ""
@@ -47,12 +45,6 @@ def convert():
                     text = page.extract_text()
                     if text:
                         extracted_text += text + "\n"
-                    else:
-                        img = page.to_image(resolution=150).original
-                        extracted_text += pytesseract.image_to_string(img) + "\n"
-        elif ext in ['jpg', 'jpeg', 'png']:
-            img = Image.open(file_path)
-            extracted_text = pytesseract.image_to_string(img)
         elif ext == 'docx':
             from docx import Document as DocxReader
             doc_reader = DocxReader(file_path)
@@ -91,4 +83,5 @@ def convert():
         return send_file(output_path, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
