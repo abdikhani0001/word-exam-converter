@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Exam Converter - Mobile & PC</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        .container { max-width: 600px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: auto; }
+        h2 { text-align: center; color: #1e3a8a; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #6b7280; font-size: 14px; margin-top: 0; }
+        label { font-weight: bold; display: block; margin-top: 12px; color: #374151; font-size: 14px; }
+        input, select, button { width: 100%; padding: 12px; margin-top: 6px; margin-bottom: 12px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+        input[type="file"] { background: #f9fafb; padding: 10px; }
+        button { background: #2563eb; color: white; border: none; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 15px; }
+        button:hover { background: #1d4ed8; }
+        .footer { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Word Exam Converter</h2>
+        <p class="subtitle">Format exams for Al-Amiin & schools instantly</p>
+        <form action="/convert" method="POST" enctype="multipart/form-data">
+            <label>Select Exam File (PDF, DOCX, Image):</label>
+            <input type="file" name="file" required>
+
+            <label>School Name:</label>
+            <input type="text" name="school_name" value="AL-AMIIN PRIMARY & SECONDARY SCHOOL">
+
+            <label>Exam Title:</label>
+            <input type="text" name="exam_title" value="END OF TERM EXAMINATION">
+
+            <label>Subject:</label>
+            <input type="text" name="subject" value="Saynis">
+
+            <label>Class / Grade:</label>
+            <input type="text" name="class_grade" value="Fasalka 1aad">
+
+            <label>Layout Style:</label>
+            <select name="layout_style">
+                <option value="Traditional Kenya">Traditional Kenya</option>
+                <option value="Modern CBC">Modern CBC</option>
+            </select>
+
+            <button type="submit">CONVERT TO WORD (.DOCX)</button>
+        </form>
+        <div class="footer">Compatible with WPS Office on Android & Windows</div>
+    </div>
+</body>
+</html>
 
